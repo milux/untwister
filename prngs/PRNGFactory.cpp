@@ -23,6 +23,7 @@ PRNGFactory::PRNGFactory()
     library[MT19937] = &create<Mt19937>;
     library[RUBY_RAND] = &create<Ruby>;
     library[PHP_MT_RAND] = &create<PHP_mt19937>;
+    library[PHP_GLIBC_RAND] = &create<PHP_glibcRand>;
     library[JAVA] = &create<Java>;
 }
 

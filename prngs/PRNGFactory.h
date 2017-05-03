@@ -9,6 +9,7 @@
 #include "GlibcRand.h"
 #include "Ruby.h"
 #include "PHP_mt19937.h"
+#include "PHP_glibcRand.h"
 #include "Java.h"
 
 /* Template to bind constructor to mapped string */

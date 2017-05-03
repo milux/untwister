@@ -2,15 +2,15 @@
 CPPFLAGS = -std=gnu++11 -O3 -g3 -Wall -c -fmessage-length=0 -MMD -fPIC
 PYTHON = /usr/include/python2.7
 BOOST = /usr/include
-OBJS = ./prngs/LSBState.o ./prngs/GlibcRand.o ./prngs/PHP_mt19937.o ./prngs/Mt19937.o ./prngs/Ruby.o ./prngs/Java.o ./prngs/PRNGFactory.o ./Untwister.o
+OBJS = ./prngs/LSBState.o ./prngs/GlibcRand.o ./prngs/PHP_glibcRand.o ./prngs/PHP_mt19937.o ./prngs/Mt19937.o ./prngs/Ruby.o ./prngs/Java.o ./prngs/PRNGFactory.o ./Untwister.o
 TEST_OBJS = ./tests/runner.o ./tests/TestRuby.o ./tests/TestJava.o ./tests/TestMt19937.o ./tests/TestPRNGFactory.o ./tests/Test_PHP_mt19937.o ./tests/TestUntwister.o
 CC = g++
 
-all: GlibcRand Mt19937 PHP_mt19937 Ruby Java LSBState PRNGFactory Untwister
+all: GlibcRand PHP_glibcRand Mt19937 PHP_mt19937 Ruby Java LSBState PRNGFactory Untwister
 	$(CC) $(CPPFLAGS) -pthread -MF"main.d" -MT"main.d" -o "main.o" "./main.cpp"
 	$(CC) -std=gnu++11 -O3 -pthread $(OBJS) main.o -o untwister
 
-python: GlibcRand Mt19937 PHP_mt19937 Ruby Java LSBState PRNGFactory Untwister
+python: GlibcRand PHP_glibcRand Mt19937 PHP_mt19937 Ruby Java LSBState PRNGFactory Untwister
 	$(CC) $(CPPFLAGS) -I$(PYTHON) -I$(BOOST) py-untwister.cpp -o py-untwister.o
 	$(CC) -std=c++11 -shared -fPIC -O3 $(OBJS) py-untwister.o -lboost_python -lpython2.7 -o untwister.so
 
@@ -26,6 +26,9 @@ tests: GlibcRand Mt19937 PHP_mt19937 Ruby Java LSBState PRNGFactory Untwister
 
 GlibcRand:
 	$(CC) $(CPPFLAGS) -MF"prngs/GlibcRand.d" -MT"prngs/GlibcRand.d" -o "prngs/GlibcRand.o" "./prngs/GlibcRand.cpp"
+    
+PHP_glibcRand:
+	$(CC) $(CPPFLAGS) -MF"prngs/PHP_glibcRand.d" -MT"prngs/PHP_glibcRand.d" -o "prngs/PHP_glibcRand.o" "./prngs/PHP_glibcRand.cpp"
 
 Mt19937:
 	$(CC) $(CPPFLAGS) -MF"prngs/Mt19937.d" -MT"prngs/Mt19937.d" -o "prngs/Mt19937.o" "./prngs/Mt19937.cpp"
